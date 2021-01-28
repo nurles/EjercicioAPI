@@ -2,50 +2,43 @@ package com.pmdm.ejercicioapi
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pmdm.ejercicioapi.databinding.ActivityMainBinding
 import java.util.*
 import kotlinx.coroutines.*
 
-interface MainActivityInterface {
-    suspend fun onBooksReceived(listaLibros : List<Books>)
-}
 
-class MainActivity : AppCompatActivity(), MainActivityInterface {
-    private lateinit var adapter : StringAdapter
+
+class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    companion object {
-        private var listaLibrosString = mutableListOf<Books>()
-    }
+
+    private lateinit var model : MainActivityViewModel
+    private var adapter = AdapterString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding  = ActivityMainBinding.inflate(layoutInflater)
+        model = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
+        GlobalScope.launch{
+           var resultados = model.getApiResults()
+            adapter.setData(resultados)
+        }
+
+
+        //Poner el adapter al recycler view
+
         setContentView(binding.root)
-        createRecyclerView()
 
         CoroutineScope(Dispatchers.IO).launch{
             GetAllBooks.send(this@MainActivity)
         }
     }
-    private fun createRecyclerView() {
-        adapter = StringAdapter(listaLibrosString)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
-    }
 
-    override suspend fun onBooksReceived(listaLibros: List<Books>) {
-        withContext(Dispatchers.Main) {
-            listaLibros.forEach {
-                listaLibrosString.append(it.toString())
-            }
-        }
-    }
 
 }
 
-private fun <E> MutableList<E>.append(toString: String) {
 
-}
 
 
