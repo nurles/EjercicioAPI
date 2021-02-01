@@ -6,12 +6,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class MainActivityViewModel : ViewModel() {
+class SecondActivityViewModel : ViewModel() {
 
-    suspend fun getApiResults() : List<String> {
-        return withContext(Dispatchers.IO) {
-            var resultado = GlobalScope.async {
-                DowloandManager.downloadApiResults()
+    suspend fun getSingleItem(userChoice : String) : String{
+        return withContext(Dispatchers.IO){
+            val resultado = GlobalScope.async {
+                DowloandManager.downloadApiSingleResult(userChoice)
             }
             resultado.await()
         }

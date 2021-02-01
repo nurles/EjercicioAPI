@@ -12,7 +12,7 @@ import java.io.IOException
 
 class GetAllBooks {
     companion object {
-        suspend fun send(mainActivity : MainActivityInterface?) {
+        suspend fun send(mainActivity: MainActivity) {
 
             val client = OkHttpClient()
             val url = "https://www.anapioficeandfire.com/api/books"

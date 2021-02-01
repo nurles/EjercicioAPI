@@ -1,28 +1,43 @@
 package com.pmdm.ejercicioapi
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class AdapterString : RecyclerView.Adapter<AdapterString.ViewHolder>(){
+class AdapterString : RecyclerView.Adapter<AdapterString.LibrosViewHolder>(){
 
-    private var datos : String? = null
-    class LibrosViewHolder(root : View) : RecyclerView.Recycler.ViewHolder(root)
+    private var datos : List<String>? = null
+    class LibrosViewHolder(root : View,val textView : TextView) : RecyclerView.ViewHolder(root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibrosViewHolder {
-        TODO("Not yet implemented")
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        val textView = view.findViewById<TextView>(R.id.textView)
+        return LibrosViewHolder(view, textView)
     }
 
     override fun onBindViewHolder(holder: LibrosViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        datos?.let{
+            holder.textView.text = it[position]
+        }
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        datos?.let{
+            return it.size
+        }
+        return 0
     }
 
-    fun setData(string : String){
+
+    suspend fun setData(string: List<String>){
         datos = string
-        notifyDataSetChanged()
+        withContext(Dispatchers.IO){
+            notifyDataSetChanged()
+        }
+
     }
 }
