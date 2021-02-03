@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             adapter.setData(resultados)
         }
 
-        binding.boton.setOnClickListener {
+        binding.recyclerView.setOnClickListener {
             SecondActivity.createSecondActivity(this)
         }
 

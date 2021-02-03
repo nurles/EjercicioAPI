@@ -10,7 +10,7 @@ class MainActivityViewModel : ViewModel() {
 
     suspend fun getApiResults() : List<String> {
         return withContext(Dispatchers.IO) {
-            var resultado = GlobalScope.async {
+            val resultado = GlobalScope.async {
                 DowloandManager.downloadApiResults()
             }
             resultado.await()
