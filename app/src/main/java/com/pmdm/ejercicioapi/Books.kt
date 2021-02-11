@@ -12,7 +12,7 @@ data class Books (
     var publiser : String,
     var country : String,
     var mediaType : String,
-    var released : Date,
+    var released : String,
     var characters : List<String>?
 
     )

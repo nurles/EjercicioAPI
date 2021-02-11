@@ -1,16 +1,13 @@
 package com.pmdm.ejercicioapi
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MainActivityViewModel : ViewModel() {
 
-    suspend fun getApiResults() : List<String> {
+    suspend fun getApiResults() {
         return withContext(Dispatchers.IO) {
-            val resultado = GlobalScope.async {
+            val resultado : Deferred<List<Books>?> = GlobalScope.async {
                 DowloandManager.downloadApiResults()
             }
             resultado.await()

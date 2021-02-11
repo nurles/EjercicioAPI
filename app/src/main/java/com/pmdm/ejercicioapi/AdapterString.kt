@@ -9,8 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AdapterString : RecyclerView.Adapter<AdapterString.LibrosViewHolder>(){
+    companion object {
+        private var datos : List<String>? = null
+    }
 
-    private var datos : List<String>? = null
     class LibrosViewHolder(root : View,val textView : TextView) : RecyclerView.ViewHolder(root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibrosViewHolder {

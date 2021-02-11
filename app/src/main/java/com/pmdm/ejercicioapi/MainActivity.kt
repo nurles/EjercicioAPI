@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pmdm.ejercicioapi.databinding.ActivityMainBinding
-import java.util.*
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         createRecyclerView()
 
         GlobalScope.launch(Dispatchers.IO){
-           val resultados = model.getApiResults()
+           val resultados : List<String> = listOf(model.getApiResults().toString())
             adapter.setData(resultados)
         }
 

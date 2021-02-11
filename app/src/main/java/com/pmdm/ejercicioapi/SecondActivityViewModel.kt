@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 
 class SecondActivityViewModel : ViewModel() {
 
-    suspend fun getSingleItem(userChoice : String) : String{
+    suspend fun getSingleItem(userChoice : String) : List<Books>{
         return withContext(Dispatchers.IO){
             val resultado = GlobalScope.async {
                 DowloandManager.downloadApiSingleResult(userChoice)

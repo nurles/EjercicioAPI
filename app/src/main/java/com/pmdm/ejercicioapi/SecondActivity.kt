@@ -28,7 +28,7 @@ class SecondActivity : AppCompatActivity(){
             GlobalScope.launch(Dispatchers.IO) {
                 val resultado = model.getSingleItem(binding.editTextSecond.text.toString())
                 withContext(Dispatchers.Main){
-                    binding.textViewResultado.text =  resultado
+                    binding.textViewResultado.text =  resultado.toString()
                 }
             }
         }
