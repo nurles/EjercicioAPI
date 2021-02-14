@@ -1,19 +1,14 @@
 package com.pmdm.ejercicioapi
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class SecondActivityViewModel : ViewModel() {
 
-    suspend fun getSingleItem(userChoice : String) : List<Books>{
-        return withContext(Dispatchers.IO){
-            val resultado = GlobalScope.async {
-                DowloandManager.downloadApiSingleResult(userChoice)
-            }
-            resultado.await()
-        }
+    suspend fun getSingleItem(userChoice : String) : String{
+        delay(5000)
+        return DowloandManager.downloadApiSingleResult(userChoice)
+
+
     }
 }

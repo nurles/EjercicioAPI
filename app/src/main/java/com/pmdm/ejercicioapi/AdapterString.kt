@@ -1,19 +1,19 @@
 package com.pmdm.ejercicioapi
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class AdapterString : RecyclerView.Adapter<AdapterString.LibrosViewHolder>(){
-    companion object {
-        private var datos : List<String>? = null
-    }
 
-    class LibrosViewHolder(root : View,val textView : TextView) : RecyclerView.ViewHolder(root)
+    private var datos = mutableListOf<Books>()
+    var posicionSeleccionado : Int = 0
+
+
+    class LibrosViewHolder(val root : View, val textView : TextView) : RecyclerView.ViewHolder(root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibrosViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
@@ -23,7 +23,20 @@ class AdapterString : RecyclerView.Adapter<AdapterString.LibrosViewHolder>(){
 
     override fun onBindViewHolder(holder: LibrosViewHolder, position: Int) {
         datos?.let{
-            holder.textView.text = it[position]
+            holder.textView.text = it[position].toString()
+        }
+
+        //Solo vale para elegir con el teclado no con el raton
+        holder.root.setOnFocusChangeListener { v, hasFocus ->
+            if(hasFocus){
+                holder.root.setBackgroundColor(Color.GRAY)
+                posicionSeleccionado = position+1
+            }else{
+                holder.root.setBackgroundColor(Color.WHITE)
+            }
+        }
+        holder.root.setOnClickListener{
+            SecondActivity.createSecondActivity(it.context, posicionSeleccionado.toString())
         }
     }
 
@@ -35,11 +48,11 @@ class AdapterString : RecyclerView.Adapter<AdapterString.LibrosViewHolder>(){
     }
 
 
-    suspend fun setData(string: List<String>){
-        datos = string
-        withContext(Dispatchers.IO){
-            notifyDataSetChanged()
-        }
+    fun setData(booksList: MutableList<Books>){
+        this.datos = booksList
+        notifyDataSetChanged()
+
 
     }
 }
+

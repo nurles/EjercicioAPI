@@ -19,6 +19,6 @@ data class Books (
 
 {
     override fun toString(): String {
-        return "Libro: $name, Autor: $authors, Número de páginas: $numberPages\nFecha publicación: $released\n"
+        return "Libro: $name\nAutor: $authors\nNúmero de páginas: $numberPages\nFecha publicación: $released"
     }
 }

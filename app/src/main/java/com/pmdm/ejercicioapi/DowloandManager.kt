@@ -17,8 +17,9 @@ class DowloandManager {
     companion object {
 
         var listaLibros = mutableListOf<Books>()
+        lateinit var libro : String
 
-        suspend fun downloadApiResults(): List<Books>? {
+        suspend fun downloadApiResults(): MutableList<Books>? {
             val client = OkHttpClient()
             val url = "https://www.anapioficeandfire.com/api/books"
             val request = Request.Builder()
@@ -47,7 +48,7 @@ class DowloandManager {
             return listaLibros
         }
 
-        suspend fun downloadApiSingleResult(userChoice: String): List<Books> {
+        suspend fun downloadApiSingleResult(userChoice: String): String {
             val client = OkHttpClient()
             var url = "https://www.anapioficeandfire.com/api/books"
             when (userChoice) {
@@ -63,7 +64,7 @@ class DowloandManager {
                 "10" -> url += "/10"
                 "11" -> url += "/11"
                 "12" -> url += "/12"
-                else -> "No hay ningún libro con ese id. Prueba otro inferior"
+                else -> return "No hay ningún libro con ese id. Prueba otro inferior"
             }
             val request = Request.Builder()
                 .url(url)
@@ -74,22 +75,11 @@ class DowloandManager {
             delay(3000)
             val bodyInString = exc.body?.string()
             bodyInString?.let {
-                Log.w("GetAllFilms", bodyInString)
-                val results = JSONArray(bodyInString)
-
-                results?.let {
-                    Log.w("GetAllFilms", results.toString())
-                    val gson = Gson()
-
-                    val itemType = object : TypeToken<List<Books>>() {}.type
-
-                    val list = gson.fromJson<List<Books>>(results.toString(), itemType)
-                    delay(3000)
-
-                    listaLibros = list as MutableList<Books>
-                }
+                Log.w("GetOneBook", bodyInString)
+                delay(3000)
+                libro = bodyInString
             }
-            return listaLibros
+            return libro
         }
     }
 

@@ -5,12 +5,8 @@ import kotlinx.coroutines.*
 
 class MainActivityViewModel : ViewModel() {
 
-    suspend fun getApiResults() {
-        return withContext(Dispatchers.IO) {
-            val resultado : Deferred<List<Books>?> = GlobalScope.async {
-                DowloandManager.downloadApiResults()
-            }
-            resultado.await()
-        }
+    suspend fun getApiResults() : MutableList<Books>? {
+        delay(5000)
+        return DowloandManager.downloadApiResults()
     }
 }

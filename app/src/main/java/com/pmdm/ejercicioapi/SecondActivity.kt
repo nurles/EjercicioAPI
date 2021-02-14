@@ -5,13 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.pmdm.ejercicioapi.databinding.ActivityMainBinding
 import com.pmdm.ejercicioapi.databinding.ActivitySecondBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+//Parentesis extends de java, sin parentesis implement
 class SecondActivity : AppCompatActivity(){
 
     private lateinit var binding : ActivitySecondBinding
@@ -23,22 +23,22 @@ class SecondActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         model = ViewModelProvider(this).get(SecondActivityViewModel::class.java)
-
-        binding.botonBuscar.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                val resultado = model.getSingleItem(binding.editTextSecond.text.toString())
-                withContext(Dispatchers.Main){
-                    binding.textViewResultado.text =  resultado.toString()
-                }
+        var valor =  intent.getStringExtra(TAG)
+        GlobalScope.launch(Dispatchers.IO) {
+            val resultado = valor?.let { it1 -> model.getSingleItem(it1) }
+            withContext(Dispatchers.Main){
+                binding.textViewResultado.text =  resultado
             }
         }
+
 
     }
 
     companion object{
-
-        fun createSecondActivity(context : Context){
+        private const val TAG = "TAG"
+        fun createSecondActivity(context: Context, valor: String){
             val intent = Intent(context, SecondActivity::class.java)
+            intent.putExtra(TAG, valor)
             context.startActivity(intent)
         }
     }
